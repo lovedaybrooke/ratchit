@@ -1,0 +1,1 @@
+web: gunicorn ratchit.wsgi --log-file -

@@ -24,6 +24,47 @@ def list_events(request):
         return render(request, 'list_events.html', {'events': events})
 
 def manage_event(request, event_id):
-    # event = get_object_or_404(Event, pk=event_id)
-    event = Event.objects.get(pk=event_id)
-    return render(request, 'event.html', {'event': event})
+    event = get_object_or_404(Event, pk=event_id)
+    polls = event.polls.order_by('pk') 
+    return render(request, 'event.html', {'event': event, 'polls': polls})
+
+def create_poll(request, event_id):
+    if request.method == 'GET':
+        event = get_object_or_404(Event, pk=event_id)
+        return render(request, 'create-poll.html', {'event': event})
+    if request.method == 'POST':
+        poll_title = request.POST['poll-title']
+        event = get_object_or_404(Event, pk=event_id)
+        if Poll.unique_title(poll_title):
+            poll = Poll(title=poll_title)
+            poll.event = event
+            poll.save()
+            for item in request.POST['poll-categories'].split('\r\n'):
+                if item:
+                    category = Category(poll=poll)
+                    category_info = item.split(',')
+                    category.title = category_info[0]
+                    if Category.unique_title(poll, category.title):
+                        if len(category_info) > 1:
+                            category.best_possible_rating = int(category_info[1])
+                        category.save()
+                    else:
+                        return render(request, 'create-poll.html', {
+                            'error': 'Your category names must all be unique.',
+                            'event': event, 'poll_title': poll_title})
+            for item in request.POST['poll-options'].split('\r\n'):
+                if item:
+                    option = Option(poll=poll)
+                    option.title = item.split(',')[0]
+                    if Option.unique_title(poll, option.title):
+                        option.save()
+                    else:
+                        return render(request, 'create-poll.html', {
+                            'error': 'Your option names must all be unique.',
+                            'event': event, 'poll_title': poll_title})
+            return redirect('event', event_id=event.pk)
+        else:
+            return render(request, 'create-poll.html', {
+                'error': 'Your poll name must be unique',
+                'event': event, 'poll_title': poll_title})
+

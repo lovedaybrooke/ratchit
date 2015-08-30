@@ -1,5 +1,15 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}     
     <h1>{{ event.title }}</h1>
-    <h2>Manage this event</h2>    
+    <h2>Polls</h2>  
+    <ul>
+    {% for poll in polls %}
+        <li><a href="/event/{{ event.pk }}/poll/{{ poll.pk }}">{{ poll.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <h2>Create a poll</h2>   
+    
+    <a href="/event/{{ event.pk }}/create-poll">Create poll</a>
+
 {% endblock %}

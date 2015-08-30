@@ -1,0 +1,23 @@
+{% extends "basic-layout.html" %}
+{% block maincontent %}  
+    <h4>{{ event.title }}</h4>   
+    <h1>Create a poll</h1>
+    
+    {% if error %}<p>{{ error }}</p>{% endif %}
+
+    <form action="/event/{{ event.pk }}/create-poll" method="post">{% csrf_token %}
+        <input type="text" name="event-id" value="{{ event.pk }}" hidden/>
+        <label for="poll-title">Poll title</label>
+        <input type="text" name="poll-title" id="poll-title" required/>
+        <label for="poll-options">Options</label>
+        <textarea cols="25" rows="3" name="poll-options" id="poll-options"></textarea>
+        <label for="poll-categories">Categories</label>
+        <textarea cols="25" rows="3" name="poll-categories" id="poll-categories"></textarea>
+        <input type="submit" value="create poll"/>
+
+    <h2>Options</h2> 
+
+    <h2>Criteria</h2>   
+
+
+{% endblock %}

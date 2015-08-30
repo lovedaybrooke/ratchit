@@ -1,18 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from django.template import RequestContext, loader
+from django.shortcuts import redirect
+from django.template.context_processors import csrf
 import logging
 
 from models import *
 
-def createEvent(request):
-    if request.method == 'GET':
-        template = loader.get_template('create_event.html')
-        context = RequestContext(request, {})
-        return HttpResponse(template.render(context))
+def create_event(request):
+    if request.method == 'POST':
+        event_title = request.POST['event-title']
+        try:
+            event = Event(title=event_title)
+            event.save()
+            return redirect('event', event_id=event.pk)
+        except:
+            return render(request, 'list_events.html', {
+                'error': 'That name has already been taken. Please choose another.',
+                'events': Event.objects.order_by('-title')})
 
-def listEvents(request):
+def list_events(request):
     if request.method == 'GET':
-        template = loader.get_template('list_events.html')
-        context = RequestContext(request, {})
-        return HttpResponse(template.render(context))
+        events = Event.objects.order_by('-title') 
+        return render(request, 'list_events.html', {'events': events})
+
+def manage_event(request, event_id):
+    # event = get_object_or_404(Event, pk=event_id)
+    event = Event.objects.get(pk=event_id)
+    return render(request, 'event.html', {'event': event})

@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'ratchit.wsgi.application'
 ## Parse database configuration from $DATABASE_URL
 import dj_database_url
 # if 'DATABASE_URL' does no exist, then it's local machine
-DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
+DATABASES = {'default': dj_database_url.config(default='postgres://katmatfield:Heartbleed@localhost/ratchit')}
 
 
 

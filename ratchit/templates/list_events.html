@@ -1,5 +1,17 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}     
-<h1>All events</h1>
-<a href="/create-event">Create a new event</a>
+    <h1>All events</h1>
+    {% for event in events %}
+        <p>{{ event.title }}</p>
+    {% endfor %}
+
+    <h1>Create Event</h1>
+    
+    {% if error %}<p>{{ error }}</p>{% endif %}
+    
+    <form action="/create-event" method="post">{% csrf_token %}
+        <label for="event-title">Event title</label>
+        <input type="text" name="event-title" id="event-title" required/>
+        <input type="submit" value="create event"/>
+    </form>
 {% endblock %}

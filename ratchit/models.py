@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import fields
 
 class Event(models.Model):
-	title = models.CharField(max_length=500)
+	title = models.CharField(max_length=500, unique=True)
 
 class Poll(models.Model):
 	event = models.ForeignKey('Event', related_name='polls')

@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.decorators.csrf import csrf_exempt
 
 import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.listEvents),
-    url(r'^create-event',  views.createEvent),
+    url(r'^$', views.list_events),
+    url(r'^create-event',  csrf_exempt(views.create_event)),
+    url(r'^event/(?P<event_id>[0-9]+)/$',  views.manage_event, name='event')
 ]

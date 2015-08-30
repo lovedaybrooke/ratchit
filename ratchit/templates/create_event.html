@@ -1,5 +1,12 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}	    
     <h1>Create Event</h1>
-
+    
+    {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+    
+    <form action="/create-event" method="post">{% csrf_token %}
+        <label for="event-title">Event title</label>
+        <input type="text" title="event-title" id="event-title" required/>
+        <input type="submit" value="create event"/>
+    </form>
 {% endblock %}

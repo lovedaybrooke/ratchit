@@ -68,3 +68,11 @@ def create_poll(request, event_id):
                 'error': 'Your poll name must be unique',
                 'event': event, 'poll_title': poll_title})
 
+def view_poll(request, event_id, poll_id):
+    poll = get_object_or_404(Poll, pk=poll_id)
+    event = get_object_or_404(Event, pk=event_id)
+    options = Option.objects.filter(poll=poll_id).order_by('pk') 
+    categories = Category.objects.filter(poll=poll_id).order_by('pk') 
+    return render(request, 'poll.html', {'event': event, 'poll': poll,
+        'options': options, 'categories': categories})
+

@@ -1,6 +1,6 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}  
-    <h4>{{ event.title }}</h4>   
+    <h4><a href="/event/{{ event.id }}">{{ event.title }}</a></h4>
     <h1>Create a poll</h1>
     
     {% if error %}<p>{{ error }}</p>{% endif %}

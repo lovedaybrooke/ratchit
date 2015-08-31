@@ -1,0 +1,23 @@
+[
+  {
+    "model": "polladmin.event",
+    "fields": {
+      "id": 1,
+      "title": "Monty Python at the Hollywood Bowl"
+    }
+  },
+ {
+   "model": "polladmin.poll",
+   "fields": {
+     "event": 1,
+     "title": "Drinks"
+   }
+ },
+ {
+   "model": "polladmin.poll",
+   "fields": {
+     "event": 1,
+     "title": "Food"
+   }
+ }
+]

@@ -1,1 +1,1 @@
-web: gunicorn ratchit.wsgi --log-file -
+web: gunicorn polladmin.wsgi --log-file -

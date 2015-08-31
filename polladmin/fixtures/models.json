@@ -9,15 +9,101 @@
  {
    "model": "polladmin.poll",
    "fields": {
+     "id": 1,
      "event": 1,
      "title": "Drinks"
    }
  },
  {
+   "model": "polladmin.option",
+   "fields": {
+     "id": 1,
+     "poll": 1,
+     "title": "Beer"
+   }
+ },
+ {
+   "model": "polladmin.option",
+   "fields": {
+     "id": 2,
+     "poll": 1,
+     "title": "Coke"
+   }
+ },
+ {
+   "model": "polladmin.option",
+   "fields": {
+     "id": 2,
+     "poll": 1,
+     "title": "Water"
+   }
+ },
+ {
+   "model": "polladmin.category",
+   "fields": {
+     "id": 1,
+     "poll": 1,
+     "title": "Cost",
+     "best_possible_rating": 1
+   }
+ },
+ {
+   "model": "polladmin.category",
+   "fields": {
+     "id": 2,
+     "poll": 1,
+     "title": "Flavour",
+     "best_possible_rating": 3
+   }
+ },
+ {
    "model": "polladmin.poll",
    "fields": {
+     "id": 2,
      "event": 1,
      "title": "Food"
+   }
+ },
+ {
+   "model": "polladmin.option",
+   "fields": {
+     "id": 4,
+     "poll": 2,
+     "title": "Popcorn"
+   }
+ },
+ {
+   "model": "polladmin.option",
+   "fields": {
+     "id": 5,
+     "poll": 2,
+     "title": "Crisps"
+   }
+ },
+ {
+   "model": "polladmin.option",
+   "fields": {
+     "id": 6,
+     "poll": 2,
+     "title": "Nuts"
+   }
+ },
+ {
+   "model": "polladmin.category",
+   "fields": {
+     "id": 3,
+     "poll": 2,
+     "title": "Flavour",
+     "best_possible_rating": 3
+   }
+ },
+ {
+   "model": "polladmin.category",
+   "fields": {
+     "id": 4,
+     "poll": 2,
+     "title": "Calories",
+     "best_possible_rating": 1
    }
  }
 ]

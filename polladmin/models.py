@@ -1,11 +1,13 @@
 from django.db import models
 from django.db.models import fields
 
+
 class Event(models.Model):
     title = models.CharField(max_length=500, unique=True)
 
+
 class Poll(models.Model):
-    event = models.ForeignKey('Event', related_name='polls')
+    event = models.ForeignKey("Event", related_name="polls")
     title = models.CharField(max_length=500, unique=True)
 
     @classmethod
@@ -29,7 +31,7 @@ class Poll(models.Model):
 
 
 class Option(models.Model):
-    poll = models.ForeignKey('Poll', related_name='options')
+    poll = models.ForeignKey("Poll", related_name="options")
     title = models.CharField(max_length=500, unique=True)
 
     @classmethod
@@ -49,10 +51,11 @@ class Option(models.Model):
                     option.save()
                 else:
                     raise NonUniqueError(
-                        'You can\'t use the same option name twice')
+                        "You can't use the same option name twice")
+
 
 class Category(models.Model):
-    poll = models.ForeignKey('Poll', related_name='categories')
+    poll = models.ForeignKey("Poll", related_name="categories")
     title = models.CharField(max_length=500)
     best_possible_rating = models.IntegerField(default=3)
 
@@ -76,20 +79,24 @@ class Category(models.Model):
                     category.save()
                 else:
                     raise NonUniqueError(
-                        'You can\'t use the same category name twice.')
+                        "You can't use the same category name twice.")
+
 
 class Rater(models.Model):
     id_hash = models.CharField(max_length=32)
 
+
 class Rating(models.Model):
-    poll = models.ForeignKey('Poll', related_name='ratings')
-    option = models.ForeignKey('Option', related_name='ratings')
-    category = models.ForeignKey('Category', related_name='ratings')
-    rater = models.ForeignKey('Rater', related_name='ratings')
+    poll = models.ForeignKey("Poll", related_name="ratings")
+    option = models.ForeignKey("Option", related_name="ratings")
+    category = models.ForeignKey("Category", related_name="ratings")
+    rater = models.ForeignKey("Rater", related_name="ratings")
     rating = models.IntegerField()
+
 
 class NonUniqueError(Exception):
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)

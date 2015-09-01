@@ -20,10 +20,10 @@ from django.views.decorators.csrf import csrf_exempt
 import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.list_events),
-    url(r'^create-event',  csrf_exempt(views.create_event)),
-    url(r'^event/(?P<event_id>[0-9]+)/$',  views.manage_event, name='event'),
-    url(r'^event/(?P<event_id>[0-9]+)/create-poll$',  csrf_exempt(views.create_poll)),
-    url(r'^event/(?P<event_id>[0-9]+)/poll/(?P<poll_id>[0-9]+)$',  csrf_exempt(views.view_poll)),
+    url(r"^admin/", include(admin.site.urls)),
+    url(r"^$", views.list_events),
+    url(r"^create-event",  csrf_exempt(views.create_event)),
+    url(r"^event/(?P<event_id>[0-9]+)/$",  views.manage_event, name="event"),
+    url(r"^event/(?P<event_id>[0-9]+)/create-poll$",  csrf_exempt(views.create_poll)),
+    url(r"^event/(?P<event_id>[0-9]+)/poll/(?P<poll_id>[0-9]+)$",  csrf_exempt(views.view_poll)),
 ]

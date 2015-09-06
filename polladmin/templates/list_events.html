@@ -9,7 +9,7 @@
     
     {% if error %}<p>{{ error }}</p>{% endif %}
     
-    <form action="/create-event" method="post">{% csrf_token %}
+    <form action="/event/create" method="post">{% csrf_token %}
         <label for="event-title">Event title</label>
         <input type="text" name="event-title" id="event-title" required/>
         <input type="submit" value="create event"/>

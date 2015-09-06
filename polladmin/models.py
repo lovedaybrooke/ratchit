@@ -71,8 +71,14 @@ class Option(models.Model):
                 if cls.unique_title(poll, option.title):
                     option.save()
                 else:
+                    poll.delete()
+                    categories = Category.objects.filter(poll=poll)
+                    categories.delete()
+                    options = cls.objects.filter(poll=poll)
+                    options.delete()
                     raise NonUniqueError(
-                        "You can't use the same option name twice")
+                        "You can't use the same option name twice in the "
+                        "same poll. Please choose another name.")
 
 
 class Category(models.Model):
@@ -96,12 +102,16 @@ class Category(models.Model):
                 category = cls(poll=poll)
                 category.title = item_dict[0].strip()
                 if len(item_dict) > 1:
-                        category.best_possible_rating = int(item_dict[1])
+                    category.best_possible_rating = int(item_dict[1])
                 if cls.unique_title(poll, category.title):
                     category.save()
                 else:
+                    poll.delete()
+                    categories = cls.objects.filter(poll=poll)
+                    categories.delete()
                     raise NonUniqueError(
-                        "You can't use the same category name twice.")
+                        "You can't use the same category name twice in the "
+                        "same poll. Please choose another name.")
 
 
 class NonUniqueError(Exception):

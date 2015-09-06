@@ -38,14 +38,15 @@ def create_poll(request, event_id):
     if request.method == "POST":
         try:
             event = get_object_or_404(Event, pk=event_id)
-            Poll.create(event, request.POST["poll-title"],
-                request.POST["poll-options"], request.POST["poll-categories"])
+            poll = Poll.create(event, request.POST["poll_title"],
+                request.POST["poll_options"], request.POST["poll_categories"])
             return redirect("event", event_id=event.pk)
         except NonUniqueError as e:
             return render(request, "create-poll.html",
                 {"error": e,
                 "event": event,
-                "poll_title": poll_title})
+                "formdata": request.POST.dict() 
+                })
 
 
 def view_poll(request, event_id, poll_id):

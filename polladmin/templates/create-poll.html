@@ -7,12 +7,12 @@
 
     <form action="/event/{{ event.pk }}/create-poll" method="post">{% csrf_token %}
         <input type="text" name="event-id" value="{{ event.pk }}" hidden/>
-        <label for="poll-title">Poll title</label>
-        <input type="text" name="poll-title" id="poll-title" required/>
-        <label for="poll-options">Options</label>
-        <textarea cols="25" rows="3" name="poll-options" id="poll-options"></textarea>
-        <label for="poll-categories">Categories</label>
-        <textarea cols="25" rows="3" name="poll-categories" id="poll-categories"></textarea>
+        <label for="poll_title">Poll title</label>
+        <input type="text" name="poll_title" id="poll_title" required {% if formdata.poll_title %}value={{formdata.poll_title|escape}}{% endif %} />
+        <label for="poll_options">Options</label>
+        <textarea cols="25" rows="3" name="poll_options" id="poll_options" required>{% if formdata.poll_options %}{{formdata.poll_options|escape}}{% endif %}</textarea>
+        <label for="poll_categories">Categories</label>
+        <textarea cols="25" rows="3" name="poll_categories" id="poll_categories" required>{% if formdata.poll_categories %}{{formdata.poll_categories|escape}}{% endif %}</textarea>
         <input type="submit" value="create poll"/>
 
     <h2>Options</h2> 

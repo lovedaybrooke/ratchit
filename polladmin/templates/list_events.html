@@ -2,7 +2,7 @@
 {% block maincontent %}     
     <h1>All events</h1>
     {% for event in events %}
-        <p>{{ event.title }}</p>
+        <p><a href="/event/{{ event.id }}">{{ event.title }}</a></p>
     {% endfor %}
 
     <h1>Create Event</h1>

@@ -45,10 +45,9 @@ def create_poll(request, event_id):
             return redirect("event", event_id=event.pk)
         except NonUniqueError as e:
             return render(request, "create-poll.html",
-                {"error": e,
+                {e.type: e.value,
                 "event": event,
-                "formdata": request.POST.dict() 
-                })
+                "formdata": request.POST.dict()})
 
 
 def view_poll(request, event_id, poll_id):

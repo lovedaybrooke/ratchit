@@ -15,7 +15,7 @@
     <div  class="section">
     <h2>Create event</h2>
     
-    {% if error %}<p>{{ error }}</p>{% endif %}
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
     
     <form action="/event/create" method="post">{% csrf_token %}
         <label for="event-title">Event title</label>

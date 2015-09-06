@@ -49,7 +49,8 @@ class Poll(models.Model):
             return poll
         else:
             raise NonUniqueError("You can't use the same poll name twice "
-                "in the same event. Please choose another name.")
+                "in the same event. Please choose another name.",
+                "title_error")
 
 
 class Option(models.Model):
@@ -80,7 +81,8 @@ class Option(models.Model):
                     options.delete()
                     raise NonUniqueError(
                         "You can't use the same option name twice in the "
-                        "same poll. Please choose another name.")
+                        "same poll. Please choose another name.",
+                        "option_error")
 
 
 class Category(models.Model):
@@ -120,12 +122,14 @@ class Category(models.Model):
                     categories.delete()
                     raise NonUniqueError(
                         "You can't use the same category name twice in the "
-                        "same poll. Please choose another name.")
+                        "same poll. Please choose another name.",
+                        "category_error")
 
 
 class NonUniqueError(Exception):
-    def __init__(self, value):
+    def __init__(self, value, type):
         self.value = value
+        self.type = type
 
     def __str__(self):
         return repr(self.value)

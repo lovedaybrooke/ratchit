@@ -3,14 +3,16 @@
         <h5 class="breadcrumb" ><<a href="/">all events</a><<a href="/event/{{ event.id }}">{{ event.title }} event</a></h5>
     <h2>Create a poll</h2>
     
-    {% if error %}<p>{{ error }}</p>{% endif %}
+    {% if title_error or option_error or category_error %}<p class="error">There's a problem with the poll information you gave. Scroll down to see why.</p>{% endif %}
 
     <form class="poll" action="/event/{{ event.pk }}/create-poll" method="post">{% csrf_token %}
         <input type="text" name="event-id" value="{{ event.pk }}" hidden/>
         <label class="poll" for="poll_title">Poll name</label>
+        {% if title_error %}<p class="error">{{ title_error }}</p>{% endif %}
         <input type="text" name="poll_title" id="poll_title" required {% if formdata.poll_title %}value={{formdata.poll_title|escape}}{% endif %} />
         <label class="poll" for="poll_options">Options</label>
         <p class="guidance">What are the ideas, approach, etc that participants will rate?<br >Write each option on a new line.</p>
+        {% if option_error %}<p class="error">{{ option_error }}</p>{% endif %}
         <textarea cols="50" rows="10" name="poll_options" id="poll_options" required>{% if formdata.poll_options %}{{formdata.poll_options|escape}}{% endif %}</textarea>
         <h4 class="label">What factors should they be scored on?</h4>
         <div class="explanation">
@@ -19,6 +21,7 @@
         <p>However, sometimes a high score in a particular factor is bad, so the best score is 1, not 3.</p>
         <p>One example of this kind of factor is 'difficulty', where an option which has high difficulty is less desirable than one with low difficulty.</p>
         </div>
+        {% if category_error %}<p class="error">{{ category_error }}</p>{% endif %}
         <label class="poll" for="poll_categories_desc">Factors whose best score is high</label>
         <p class="guidance">For instance value, impact, strategic alignment.<br />Write each factor on a new line.</p>
         <textarea cols="50" rows="5" name="poll_categories_desc" id="poll_categories_desc">{% if formdata.poll_categories_desc %}{{formdata.poll_categories_desc|escape}}{% endif %}</textarea>

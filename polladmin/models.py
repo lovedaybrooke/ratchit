@@ -1,6 +1,13 @@
+import os
+from binascii import hexlify
+
 from django.db import models
 from django.db.models import fields
 
+
+def _createHash():
+    """This function generate 10 character long hash"""
+    return hexlify(os.urandom(5))
 
 class Event(models.Model):
     title = models.CharField(max_length=500, unique=True)
@@ -9,6 +16,8 @@ class Event(models.Model):
 class Poll(models.Model):
     event = models.ForeignKey("Event", related_name="polls")
     title = models.CharField(max_length=500, unique=True)
+    rating_hash = models.CharField(max_length=10, default=_createHash,
+        unique=True)
 
     @classmethod
     def unique_title(cls, event, title):
@@ -80,18 +89,6 @@ class Category(models.Model):
                 else:
                     raise NonUniqueError(
                         "You can't use the same category name twice.")
-
-
-class Rater(models.Model):
-    id_hash = models.CharField(max_length=32)
-
-
-class Rating(models.Model):
-    poll = models.ForeignKey("Poll", related_name="ratings")
-    option = models.ForeignKey("Option", related_name="ratings")
-    category = models.ForeignKey("Category", related_name="ratings")
-    rater = models.ForeignKey("Rater", related_name="ratings")
-    rating = models.IntegerField()
 
 
 class NonUniqueError(Exception):

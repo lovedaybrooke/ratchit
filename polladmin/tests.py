@@ -6,6 +6,19 @@ from models import *
 class ModelsTestCase(TestCase):
     fixtures = ['models.json']
 
+    def test_unique_title_for_event(self):
+        """ Test that new event cannot use the same title as existing """
+
+        self.assertFalse(
+            Event.unique_title("Monty Python at the Hollywood Bowl"),
+            "Event with the same name as an existing event (and the same "
+            "capitalisation) can be created")
+
+        self.assertFalse(
+            Event.unique_title("monty python at the hollywood bowl"),
+            "Event with the same name as an existing event (but different "
+            "capitalisation) can be created")
+
     def test_unique_title_for_polls_of_same_event(self):
         """ Test that new event cannot use the same title as existing """
 

@@ -12,6 +12,13 @@ def _createHash():
 class Event(models.Model):
     title = models.CharField(max_length=500, unique=True)
 
+    @classmethod
+    def unique_title(cls, test_title):
+        events = Event.objects.all()
+        for event_title in [event.title.lower() for event in events]:
+            if event_title == test_title.lower():
+                return False
+        return True
 
 class Poll(models.Model):
     event = models.ForeignKey("Event", related_name="polls")

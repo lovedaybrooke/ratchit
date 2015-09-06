@@ -123,17 +123,21 @@ class ModelsTestCase(TestCase):
             "as an existing option from a different poll cannot be "
             "created in a new poll")
 
-    def test_block_create_categories(self):
-        """ Test that new block_create function for categories works """
+    def test_blocks_create_categories(self):
+        """ 
+        Test that blockS_create and block_create functions for
+        categories works 
+        """
 
         poll = Poll(title="Swimwear")
         poll.event = Event.objects.get(pk=1)
         poll.save()
 
         # block = u'Speedos\r\nOne-piece\r\nBikini'
-        block = u"Comfort\r\nPrice,1\r\nLook ,3 \r\n"
+        block_asc = u"Price\r\n"
+        block_desc = "Comfort\r\nLook"
 
-        Category.create_from_block(poll, block)
+        Category.create_from_blocks(poll, block_desc, block_asc)
 
         comfort_category = Category.objects.filter(poll=poll).filter(
             title="Comfort")

@@ -39,7 +39,9 @@ def create_poll(request, event_id):
         try:
             event = get_object_or_404(Event, pk=event_id)
             poll = Poll.create(event, request.POST["poll_title"],
-                request.POST["poll_options"], request.POST["poll_categories"])
+                request.POST["poll_options"],
+                request.POST["poll_categories_desc"],
+                request.POST["poll_categories_asc"])
             return redirect("event", event_id=event.pk)
         except NonUniqueError as e:
             return render(request, "create-poll.html",

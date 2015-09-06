@@ -37,12 +37,14 @@ class Poll(models.Model):
         return True
 
     @classmethod
-    def create(cls, event, poll_title, option_block, category_block):
+    def create(cls, event, poll_title, option_block, category_block_desc,
+        category_block_asc):
         if cls.unique_title(event, poll_title):
             poll = cls(title=poll_title)
             poll.event = event
             poll.save()
-            Category.create_from_block(poll, category_block)
+            Category.create_from_blocks(poll, category_block_desc,
+                category_block_asc)
             Option.create_from_block(poll, option_block)
             return poll
         else:
@@ -95,14 +97,21 @@ class Category(models.Model):
         return True
 
     @classmethod
-    def create_from_block(cls, poll, block):
+    def create_from_blocks(cls, poll, block_desc, block_asc):
+        cls.create_from_block(poll, block_desc, "desc")
+        cls.create_from_block(poll, block_asc, "asc")
+
+    @classmethod
+    def create_from_block(cls, poll, block, asc_or_desc):
         for item in block.split('\r\n'):
             if item:
                 item_dict = item.split(',')
                 category = cls(poll=poll)
                 category.title = item_dict[0].strip()
-                if len(item_dict) > 1:
-                    category.best_possible_rating = int(item_dict[1])
+                if asc_or_desc == "asc":
+                    category.best_possible_rating = 1
+                else:
+                    category.best_possible_rating = 3
                 if cls.unique_title(poll, category.title):
                     category.save()
                 else:

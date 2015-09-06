@@ -20,21 +20,32 @@ class ModelsTestCase(TestCase):
             "capitalisation) can be created")
 
     def test_unique_title_for_polls_of_same_event(self):
-        """ Test that new event cannot use the same title as existing """
+        """ Test that new poll cannot use the same title as existing """
 
         event = Event.objects.get(pk=1)
 
         self.assertFalse(
             Poll.unique_title(event, "Drinks"),
-            "Poll with the same name as existing can be created in one event")
+            "Poll with the same name as existing poll (and the same "
+            "capitalisation) can be created in one event")
+
+        self.assertFalse(
+            Poll.unique_title(event, "drinks"),
+            "Poll with the same name as existing poll (but different "
+            "capitalisation) can be created in one event")
 
     def test_unique_title_for_polls_of_different_events(self):
-        """ Test that new event cannot use the same title as existing """
+        """ Test that new poll cannot use the same title as existing """
 
         event = Event(title="Totally different event")
 
         self.assertTrue(Poll.unique_title(event, "Drinks"),
-            "Poll with the same name as other cannot be created in new event")
+            "Poll with the same name as a poll from another event (and the "
+            "same capitalisation) cannot be created in new event")
+
+        self.assertTrue(Poll.unique_title(event, "drinks"),
+            "Poll with the same name as a poll from another event (but "
+            "different capitalisation) cannot be created in new event")
 
     def test_block_create_options(self):
         """ Test that new block_create for options function works """
@@ -86,9 +97,13 @@ class ModelsTestCase(TestCase):
 
         poll = Poll.objects.get(pk=1)
 
-        self.assertFalse(
-            Option.unique_title(poll, "Beer"), "Option with the same name "
-            "as existing can be created in one poll")
+        self.assertFalse(Option.unique_title(poll, "Beer"),
+            "Option with the same name as an existing option (and "
+            "the same capitalisation) cannot be created in one poll")
+
+        self.assertFalse(Option.unique_title(poll, "beer"),
+            "Option with the same name as an existing option (but different "
+            "capitalisation) cannot be created in one poll")
 
     def test_unique_title_for_options_of_different_polls(self):
         """
@@ -98,9 +113,15 @@ class ModelsTestCase(TestCase):
         event = Event.objects.get(pk=1)
         poll = Poll(event=event, title="Seat choices")
 
-        self.assertTrue(
-            Option.unique_title(poll, "Water"), "Option with the same name "
-            "as existing cannot be created in new poll")
+        self.assertTrue(Option.unique_title(poll, "Water"),
+            "Option with the same name (and the same capitalisation) "
+            "as an existing option from a different poll cannot be "
+            "created in a new poll")
+
+        self.assertTrue(Option.unique_title(poll, "water"),
+            "Option with the same name (but different capitalisation) "
+            "as an existing option from a different poll cannot be "
+            "created in a new poll")
 
     def test_block_create_categories(self):
         """ Test that new block_create function for categories works """
@@ -163,9 +184,13 @@ class ModelsTestCase(TestCase):
 
         poll = Poll.objects.get(pk=1)
 
-        self.assertFalse(
-            Category.unique_title(poll, "Flavour"), "Category with the same "
-            "name as existing can be created in one poll")
+        self.assertFalse(Category.unique_title(poll, "Flavour"),
+            "Category with the same name as an existing category (and "
+            "the same capitalisation) cannot be created in one poll")
+
+        self.assertFalse(Category.unique_title(poll, "flavour"),
+            "Category with the same name as an existing category (but "
+            "different capitalisation) cannot be created in one poll")
 
     def test_unique_title_for_categories_of_different_polls(self):
         """
@@ -175,6 +200,12 @@ class ModelsTestCase(TestCase):
         event = Event.objects.get(pk=1)
         poll = Poll(event=event, title="Seat choices")
 
-        self.assertTrue(
-            Category.unique_title(poll, "Flavour"), "Category with the same "
-            "name as existing cannot be created in new poll")
+        self.assertTrue(Category.unique_title(poll, "Flavour"),
+            "Category with the same name (and the same capitalisation) "
+            "as an existing category from a different poll cannot be "
+            "created in a new poll")
+
+        self.assertTrue(Category.unique_title(poll, "flavour"),
+            "Category with the same name (but different capitalisation) "
+            "as an existing category from a different poll cannot be "
+            "created in a new poll")

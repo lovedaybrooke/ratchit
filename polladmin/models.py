@@ -9,6 +9,7 @@ def _createHash():
     """This function generate 10 character long hash"""
     return hexlify(os.urandom(5))
 
+
 class Event(models.Model):
     title = models.CharField(max_length=500, unique=True)
 
@@ -20,6 +21,7 @@ class Event(models.Model):
                 return False
         return True
 
+
 class Poll(models.Model):
     event = models.ForeignKey("Event", related_name="polls")
     title = models.CharField(max_length=500, unique=True)
@@ -27,11 +29,12 @@ class Poll(models.Model):
         unique=True)
 
     @classmethod
-    def unique_title(cls, event, title):
-        if Poll.objects.filter(title=title).filter(event=event):
-            return False
-        else:
-            return True
+    def unique_title(cls, event, test_title):
+        polls = cls.objects.filter(event=event)
+        for poll_title in [poll.title.lower() for poll in polls]:
+            if poll_title == test_title.lower():
+                return False
+        return True
 
     @classmethod
     def create(cls, event, poll_title, option_block, category_block):
@@ -51,11 +54,12 @@ class Option(models.Model):
     title = models.CharField(max_length=500, unique=True)
 
     @classmethod
-    def unique_title(cls, poll, title):
-        if cls.objects.filter(title=title).filter(poll=poll):
-            return False
-        else:
-            return True
+    def unique_title(cls, poll, test_title):
+        options = cls.objects.filter(poll=poll)
+        for option_title in [option.title.lower() for option in options]:
+            if option_title == test_title.lower():
+                return False
+        return True
 
     @classmethod
     def create_from_block(cls, poll, block):
@@ -76,11 +80,12 @@ class Category(models.Model):
     best_possible_rating = models.IntegerField(default=3)
 
     @classmethod
-    def unique_title(cls, poll, title):
-        if cls.objects.filter(title=title).filter(poll=poll):
-            return False
-        else:
-            return True
+    def unique_title(cls, poll, test_title):
+        cats = cls.objects.filter(poll=poll)
+        for cat_title in [cat.title.lower() for cat in cats]:
+            if cat_title == test_title.lower():
+                return False
+        return True
 
     @classmethod
     def create_from_block(cls, poll, block):

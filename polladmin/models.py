@@ -39,14 +39,15 @@ class Poll(models.Model):
     @classmethod
     def create(cls, event, poll_title, option_block, category_block):
         if cls.unique_title(event, poll_title):
-            poll = Poll(title=poll_title)
+            poll = cls(title=poll_title)
             poll.event = event
             poll.save()
-            try:
-                Category.create_from_block(poll, category_block)
-                Option.create_from_block(poll, option_block)
-            except NonUniqueError as e:
-                raise NoneUniqueError(e)
+            Category.create_from_block(poll, category_block)
+            Option.create_from_block(poll, option_block)
+            return poll
+        else:
+            raise NonUniqueError("You can't use the same poll name twice "
+                "in the same event. Please choose another name.")
 
 
 class Option(models.Model):

@@ -1,31 +1,31 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}  
-    <h4><a href="/event/{{ event.id }}">Part of the {{ event.title }} event</a></h4>
-    <h1>Create a poll</h1>
+        <h5 class="breadcrumb" ><<a href="/">all events</a><<a href="/event/{{ event.id }}">{{ event.title }} event</a></h5>
+    <h2>Create a poll</h2>
     
     {% if error %}<p>{{ error }}</p>{% endif %}
 
-    <form action="/event/{{ event.pk }}/create-poll" method="post">{% csrf_token %}
+    <form class="poll" action="/event/{{ event.pk }}/create-poll" method="post">{% csrf_token %}
         <input type="text" name="event-id" value="{{ event.pk }}" hidden/>
-        <label for="poll_title">Poll title</label>
+        <label class="poll" for="poll_title">Poll name</label>
         <input type="text" name="poll_title" id="poll_title" required {% if formdata.poll_title %}value={{formdata.poll_title|escape}}{% endif %} />
-        <label for="poll_options">Options</label>
-        <textarea cols="25" rows="3" name="poll_options" id="poll_options" required>{% if formdata.poll_options %}{{formdata.poll_options|escape}}{% endif %}</textarea>
-        <h3>What factors should they be scored on?</h3>
+        <label class="poll" for="poll_options">Options</label>
+        <p class="guidance">What are the ideas, approach, etc that participants will rate?<br >Write each option on a new line.</p>
+        <textarea cols="50" rows="10" name="poll_options" id="poll_options" required>{% if formdata.poll_options %}{{formdata.poll_options|escape}}{% endif %}</textarea>
+        <h4 class="label">What factors should they be scored on?</h4>
+        <div class="explanation">
         <p>Scoring is always on a three-point scale, from 1 (least) to 3 (most).</p>
         <p>Much of the time, the best possible score for a factor will be 3.</p>
-        <p>However, sometimes you will want a high score in a particular factor to be bad. The best score for this kind of factor is not 3, but 1. One example of this might be 'difficulty', where an option which has high difficulty is less good than one with low difficulty.</p>
-        <label for="poll_categories_desc">Factors whose best score is high</label>
-        <p>For instance value, impact, strategic alignment</p>
-        <textarea cols="25" rows="3" name="poll_categories_desc" id="poll_categories_desc" required>{% if formdata.poll_categories %}{{formdata.poll_categories|escape}}{% endif %}</textarea>
-        <label for="poll_categories_asc">Factors whose best score is low</label>
-        <p>For instance cost, risk, time to release</p>
-        <textarea cols="25" rows="3" name="poll_categories_asc" id="poll_categories_asc" required>{% if formdata.poll_categories %}{{formdata.poll_categories|escape}}{% endif %}</textarea>
-        <input type="submit" value="create poll"/>
-
-    <h2>Options</h2> 
-
-    <h2>Criteria</h2>   
+        <p>However, sometimes a high score in a particular factor is bad, so the best score is 1, not 3.</p>
+        <p>One example of this kind of factor is 'difficulty', where an option which has high difficulty is less desirable than one with low difficulty.</p>
+        </div>
+        <label class="poll" for="poll_categories_desc">Factors whose best score is high</label>
+        <p class="guidance">For instance value, impact, strategic alignment.<br />Write each factor on a new line.</p>
+        <textarea cols="50" rows="5" name="poll_categories_desc" id="poll_categories_desc">{% if formdata.poll_categories_desc %}{{formdata.poll_categories_desc|escape}}{% endif %}</textarea>
+        <label class="poll" for="poll_categories_asc">Factors whose best score is low</label>
+        <p class="guidance">For instance cost, risk, time to release.<br />Write each factor on a new line.</p>
+        <textarea cols="50" rows="5" name="poll_categories_asc" id="poll_categories_asc">{% if formdata.poll_categories_asc %}{{formdata.poll_categories_asc|escape}}{% endif %}</textarea>
+        <input class="pure-button" type="submit" value="Create a poll"/>
 
 
 {% endblock %}

@@ -1,15 +1,18 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}     
-    <h1>{{ event.title }}</h1>
-    <h2>Polls</h2>  
-    <ul>
-    {% for poll in polls %}
-        <li><a href="/event/{{ event.pk }}/poll/{{ poll.pk }}">{{ poll.title }}</a></li>
-    {% endfor %}
-    </ul>
+    <h5 class="breadcrumb" ><<a href="/">all events</a></h5>
+    <h2>{{ event.title }}</h2>
+    <h3>Polls</h3>  
 
-    <h2>Create a poll</h2>   
+    {% if not polls %}
+        <p>There are currently no polls for this event.</p>
+        <a class="pure-button" href="/event/{{ event.pk }}/create-poll">Create poll</a>
+    {% else %}
+        {% for poll in polls %}
+            <p class="title"><a href="/event/{{ event.pk }}/poll/{{ poll.pk }}">{{ poll.title }} {% if event.ratings %}(and results){% endif %}</a></p>
+        {% endfor %}
     
-    <a href="/event/{{ event.pk }}/create-poll">Create poll</a>
-
+    
+    <a class="pure-button" href="/event/{{ event.pk }}/create-poll">Create another poll</a>
+    {% endif %}
 {% endblock %}

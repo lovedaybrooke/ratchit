@@ -1,19 +1,19 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}     
-    <h4><a href="/event/{{ event.id }}">{{ event.title }}</a></h4>
-    <h1>{{ poll.title }}</h1>
+    <h5 class="breadcrumb" ><<a href="/">all events</a><<a href="/event/{{ event.id }}">{{ event.title }} event</a></h5>
+    <h2>{{ poll.title }}</h2>
     
-    <h2>Options to be rated</h2>  
+    <h3>Options to be rated</h3>  
     <ul>
     {% for option in options %}
         <li>{{ option.title }}</li>
     {% endfor %}
     </ul>
 
-    <h2>Rating categories</h2>   
+    <h3>Rating factors</h3>   
     <ul>
     {% for category in categories %}
-        <li>{{ category.title }} (highest score: {{ category.best_possible_rating }})</li>
+        <li>{{ category.title }} (best possible score: {{ category.best_possible_rating }})</li>
     {% endfor %}
     </ul>
 

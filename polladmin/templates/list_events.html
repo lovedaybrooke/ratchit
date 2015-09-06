@@ -1,17 +1,26 @@
 {% extends "basic-layout.html" %}
 {% block maincontent %}     
-    <h1>All events</h1>
-    {% for event in events %}
-        <p><a href="/event/{{ event.id }}">{{ event.title }}</a></p>
-    {% endfor %}
+    <div class="section">
+        <h2>All events</h2>
+        <p class="guidance">Events group together polls for the same workshop, to make it easier to look up the results.</p>
+        {% if not events %}
+            <p>There are currently no events.</p>
+        {% else %}
+            {% for event in events %}
+                <p class="title"><a href="/event/{{ event.id }}">{{ event.title }}</a></p>
+            {% endfor %}
+        {% endif %}
+    </div>
 
-    <h1>Create Event</h1>
+    <div  class="section">
+    <h2>Create event</h2>
     
     {% if error %}<p>{{ error }}</p>{% endif %}
     
     <form action="/event/create" method="post">{% csrf_token %}
         <label for="event-title">Event title</label>
         <input type="text" name="event-title" id="event-title" required/>
-        <input type="submit" value="create event"/>
+        <input class="pure-button" type="submit" value="Create an event"/>
     </form>
+    </div>
 {% endblock %}

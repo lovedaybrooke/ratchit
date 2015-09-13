@@ -4,7 +4,6 @@ from binascii import hexlify
 from django.db import models
 from django.db.models import fields
 
-
 def _createHash():
     """This function generate 10 character long hash"""
     return hexlify(os.urandom(5))
@@ -52,10 +51,16 @@ class Poll(models.Model):
                 "in the same event. Please choose another name.",
                 "title_error")
 
+    @classmethod
+    def get_object_from_hash(cls, hash):
+        return cls.objects.filter(rating_hash=hash).get()
+
 
 class Option(models.Model):
     poll = models.ForeignKey("Poll", related_name="options")
     title = models.CharField(max_length=500)
+    rating_hash = models.CharField(max_length=10, default=_createHash,
+        unique=True)
 
     @classmethod
     def unique_title(cls, poll, test_title):
@@ -71,6 +76,7 @@ class Option(models.Model):
             if item:
                 option = cls(poll=poll)
                 option.title = item.split(',')[0]
+                option.rating_hash = hexlify(os.urandom(5))
                 if cls.unique_title(poll, option.title):
                     option.save()
                 else:
@@ -84,11 +90,20 @@ class Option(models.Model):
                         "same poll. Please choose another name.",
                         "option_error")
 
+    @classmethod
+    def get_object_from_hash(cls, poll, hash):
+        return cls.objects.filter(poll=poll).filter(rating_hash=hash).get()
+
+    @classmethod
+    def get_ordered_queryset(cls, poll):
+        return cls.objects.filter(poll=poll).order_by('id')
 
 class Category(models.Model):
     poll = models.ForeignKey("Poll", related_name="categories")
     title = models.CharField(max_length=500)
     best_possible_rating = models.IntegerField(default=3)
+    rating_hash = models.CharField(max_length=10, default=_createHash,
+        unique=True)
 
     @classmethod
     def unique_title(cls, poll, test_title):
@@ -110,6 +125,7 @@ class Category(models.Model):
                 item_dict = item.split(',')
                 category = cls(poll=poll)
                 category.title = item_dict[0].strip()
+                category.rating_hash = hexlify(os.urandom(5))
                 if asc_or_desc == "asc":
                     category.best_possible_rating = 1
                 else:
@@ -124,6 +140,15 @@ class Category(models.Model):
                         "You can't use the same category name twice in the "
                         "same poll. Please choose another name.",
                         "category_error")
+
+
+    @classmethod
+    def get_object_from_hash(cls, poll, hash):
+        return cls.objects.filter(poll=poll).filter(rating_hash=hash).get()
+
+    @classmethod
+    def get_ordered_queryset(cls, poll):
+        return cls.objects.filter(poll=poll).order_by('id')
 
 
 class NonUniqueError(Exception):

@@ -1,0 +1,15 @@
+{% extends "basic-ratings-layout.html" %}
+
+{% block maincontent %}
+
+<div class="header"><div>
+<p>Your rating for <strong>{{ option.title }}</strong> on <strong>{{ category.title }}</strong> has been accepted.</p>
+</div></div>
+
+{% if next_rating %}
+    <div class="button"><a href="/rate/{{ poll.rating_hash }}/{{ next_rating.option_hash }}/{{ next_rating.category_hash }}">Next rating</a></div>
+{% else %}
+    <p>You have rated all the options in this poll.</p>
+{% endif %}
+
+{% endblock %}

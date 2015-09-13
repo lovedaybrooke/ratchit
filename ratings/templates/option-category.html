@@ -1,0 +1,18 @@
+{% extends "basic-ratings-layout.html" %}
+
+{% block maincontent %}
+
+<div class="header"><div>
+{% if next_rating %}
+    <a class="breadcrumb" href="/rate/{{ poll.rating_hash }}/{{ next_rating.option_hash }}/{{ next_rating.category_hash }}">Skip</a>
+{% endif %}
+<p>You are rating <strong>{{ option.title }}</strong></p>
+<p>on <strong>{{ category.title }}</strong></p>
+
+</div></div>
+
+<a href="{{category.rating_hash}}/3"><div class="rating" id="most"><p>Most</p></div></a>
+<a href="{{category.rating_hash}}/2"><div class="rating" id="middle"></div></a>
+<a href="{{category.rating_hash}}/1"><div class="rating" id="least"><p>Least</p></div></a>
+
+{% endblock %}

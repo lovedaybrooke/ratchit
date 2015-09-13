@@ -3,6 +3,7 @@ from django.template.context_processors import csrf
 import logging
 
 from models import *
+import score_calculations
 
 
 def create_event(request):
@@ -57,3 +58,10 @@ def view_poll(request, event_id, poll_id):
     categories = Category.objects.filter(poll=poll_id).order_by("pk")
     return render(request, "poll.html", {"event": event, "poll": poll,
         "options": options, "categories": categories})
+
+
+def poll_results(request, event_id, poll_id):
+    poll = get_object_or_404(Poll, pk=poll_id)
+    event = get_object_or_404(Event, pk=event_id)
+    results = score_calculations.calculate_scores_for_all_options(event, poll)
+    return render(request, "poll_results.html", results)

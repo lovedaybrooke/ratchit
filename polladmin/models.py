@@ -98,6 +98,10 @@ class Option(models.Model):
     def get_ordered_queryset(cls, poll):
         return cls.objects.filter(poll=poll).order_by('id')
 
+    def get_category_scores(self, poll):
+        categories = Category.get_ordered_queryset(poll)
+
+
 class Category(models.Model):
     poll = models.ForeignKey("Poll", related_name="categories")
     title = models.CharField(max_length=500)
@@ -140,7 +144,6 @@ class Category(models.Model):
                         "You can't use the same category name twice in the "
                         "same poll. Please choose another name.",
                         "category_error")
-
 
     @classmethod
     def get_object_from_hash(cls, poll, hash):

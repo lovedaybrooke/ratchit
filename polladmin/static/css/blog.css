@@ -123,10 +123,44 @@ a.pure-button {
 }
 
 
-p.title a {
+p.title a, table.title {
     font-size: 1.1em;
     color: #2D3E50;
     margin-right: 30px;
+}
+
+table {
+    width: 100%;
+    margin: 30px 0px;
+}
+
+table.polls {
+    width: 66%;
+}
+
+tr {
+    border-bottom: 1px solid #BEC3C7;
+    text-align: center;
+}
+
+td, th {
+    padding: 1em 0px;
+}
+
+tr:last-child {
+    border: none;
+}
+
+table.polls td {
+    text-align: left;
+}
+
+table.polls td a {
+    color: black;
+}
+
+td.final_score, th.final_score {
+   border-right: 1px solid #BEC3C7; 
 }
 
 /* LAYOUT CSS */

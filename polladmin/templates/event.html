@@ -9,7 +9,7 @@
         <a class="pure-button" href="/event/{{ event.pk }}/create-poll">Create poll</a>
     {% else %}
         {% for poll in polls %}
-            <p class="title"><a href="/event/{{ event.pk }}/poll/{{ poll.pk }}">{{ poll.title }}</a> <a href="/rate/{{ poll.rating_hash }}" target="_blank">(participant link)</a></p>
+            <p class="title"><a href="/event/{{ event.pk }}/poll/{{ poll.pk }}">{{ poll.title }}</a> <a href="/rate/{{ poll.rating_hash }}" target="_blank">(participant link)</a><a href="/event/{{ event.pk }}/poll/{{ poll.pk }}/results">(results)</a></p>
         {% endfor %}
     
     

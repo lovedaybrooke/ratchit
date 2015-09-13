@@ -1,0 +1,33 @@
+{% extends "basic-layout.html" %}
+{% block maincontent %}     
+    <h5 class="breadcrumb" ><<a href="/">all events</a><<a href="/event/{{ event.id }}">{{ event.title }} event</a><<a href="/event/{{ event.id }}/poll/{{ poll.id }}">{{ poll.title }} poll</a></h5>
+    <h2>{{ poll.title }} poll results</h2>
+
+    {% if no_ratings %}
+        <p>There are no results for this poll yet.</p>
+        <p>Share this link with participants to let them vote: <a href="/rate/{{ poll.rating_hash }}" target="_blank">http://ratchit.herokuapp.com/rate/{{ poll.rating_hash }}</a></p>
+    {% else %}
+        <table>
+            <tr>
+                <th>Option</th>
+                <th class="final_score">Total score</th>
+                {% for category in categories %}
+                    <th>{{ category.title }} score</th>
+                {% endfor %}
+            </tr>
+            {% for option in options %}
+                <tr>
+                    <td>{{ option.title }}</td>
+                    <td class="final_score">{{ option.final_score }}
+                    {% for score in option.scores %}
+                        <td>{{ score }}</td>
+                    {% endfor %}
+                    
+                </tr>
+            {% endfor %}
+        </table>
+        <p class="guidance">Based on the ratings given by {{raters}} participants</p>
+    
+    {% endif %}
+
+{% endblock %}

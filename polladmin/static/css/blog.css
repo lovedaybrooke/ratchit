@@ -9,6 +9,10 @@ a {
     color: #17A086;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
 h2 {
     font-weight: normal;
     font-size: 1.6em;
@@ -122,7 +126,7 @@ a.pure-button {
 p.title a {
     font-size: 1.1em;
     color: #2D3E50;
-
+    margin-right: 30px;
 }
 
 /* LAYOUT CSS */
@@ -179,11 +183,12 @@ p.title a {
     font-size: 85%;
 }
 .nav-item a:hover,
-.nav-item a:focus {
-    border: 2px solid #115E4B;
-    color: #115E4B;
+.nav-item a:focus,
+.pure-button:hover {
+    background-color: #1BBC9B;
     text-decoration: none;
 }
+
 
 .content {
     padding: 2em 1em 0;

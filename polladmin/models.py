@@ -55,7 +55,7 @@ class Poll(models.Model):
 
 class Option(models.Model):
     poll = models.ForeignKey("Poll", related_name="options")
-    title = models.CharField(max_length=500, unique=True)
+    title = models.CharField(max_length=500)
 
     @classmethod
     def unique_title(cls, poll, test_title):

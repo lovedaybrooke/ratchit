@@ -7,9 +7,11 @@ from django.db.models import fields
 
 from polladmin.models import Option, Category, Poll
 
+
 def _createHash():
     """This function generate 10 character long hash"""
     return hexlify(os.urandom(5))
+
 
 class Rater(models.Model):
     id_hash = models.CharField(max_length=10, default=_createHash,
@@ -27,6 +29,7 @@ class Rater(models.Model):
     def get_from_session(cls, request):
         return cls.objects.filter(id_hash=request.session['rater']).get()
 
+
 class Rating(models.Model):
     poll = models.ForeignKey(Poll, related_name="ratings")
     option = models.ForeignKey(Option, related_name="ratings")
@@ -36,8 +39,10 @@ class Rating(models.Model):
 
     @classmethod
     def next_rating(cls, poll, previous_option, previous_category):
-        all_options = list(Option.objects.filter(poll=poll).order_by('id').all())
-        all_categories = list(Category.objects.filter(poll=poll).order_by('id').all())
+        all_options = list(Option.objects.filter(poll=poll).order_by('id'
+            ).all())
+        all_categories = list(Category.objects.filter(poll=poll).order_by(
+            'id').all())
         previous_category_position = all_categories.index(previous_category)
         previous_option_position = all_options.index(previous_option)
         if previous_category_position < (len(all_categories) - 1):
@@ -49,6 +54,5 @@ class Rating(models.Model):
                 new_option = all_options[previous_option_position + 1]
             else:
                 return False
-        return {"option_hash": new_option.rating_hash, "category_hash": new_category.rating_hash}
-
-
+        return {"option_hash": new_option.rating_hash,
+            "category_hash": new_category.rating_hash}

@@ -1,14 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.template.context_processors import csrf
-import logging
 
 from polladmin import models as polladmin_models
 from models import *
 
+
 def see_polls(request):
     polls = polladmin_models.Poll.objects.all()
     return render(request, "polls.html", {"polls": polls})
+
 
 def start_poll(request, poll_hash):
     poll = polladmin_models.Poll.get_object_from_hash(poll_hash)
@@ -17,6 +18,7 @@ def start_poll(request, poll_hash):
     request = Rater.create_if_necessary(request)
     return HttpResponseRedirect("/rate/{0}/{1}/{2}".format(poll_hash,
         option.rating_hash, category.rating_hash))
+
 
 def solicit_rating(request, poll_hash, option_hash, category_hash):
     if request.method == "GET":
@@ -33,6 +35,7 @@ def solicit_rating(request, poll_hash, option_hash, category_hash):
             "next_rating": next_rating,
             })
 
+
 def submit_rating(request, poll_hash, option_hash, category_hash, rating):
     if request.method == "GET":
         rating = Rating(rating=rating)
@@ -45,6 +48,7 @@ def submit_rating(request, poll_hash, option_hash, category_hash, rating):
         rating.save()
         return HttpResponseRedirect("/rate/{0}/{1}/{2}/next".format(poll_hash,
             option_hash, category_hash))
+
 
 def confirm_rating(request, poll_hash, option_hash, category_hash):
     if request.method == "GET":
@@ -60,4 +64,3 @@ def confirm_rating(request, poll_hash, option_hash, category_hash):
             "category": category,
             "next_rating": next_rating,
             })
-

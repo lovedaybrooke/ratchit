@@ -36,15 +36,16 @@ def solicit_rating(request, poll_hash, option_hash, category_hash):
             })
 
 
-def submit_rating(request, poll_hash, option_hash, category_hash, rating):
+def submit_rating(request, poll_hash, option_hash, category_hash, rating_word):
     if request.method == "GET":
-        rating = Rating(rating=rating)
+        rating = Rating()
         rating.poll = polladmin_models.Poll.get_object_from_hash(poll_hash)
         rating.category = polladmin_models.Category.get_object_from_hash(
             rating.poll, category_hash)
         rating.option = polladmin_models.Option.get_object_from_hash(
             rating.poll, option_hash)
         rating.rater = Rater.get_from_session(request)
+        rating.set_numerical_rating(rating_word)
         rating.save()
         return HttpResponseRedirect("/rate/{0}/{1}/{2}/next".format(poll_hash,
             option_hash, category_hash))

@@ -56,3 +56,13 @@ class Rating(models.Model):
                 return False
         return {"option_hash": new_option.rating_hash,
             "category_hash": new_category.rating_hash}
+
+    def set_numerical_rating(self, rating_word):
+        if rating_word == "middle":
+            self.rating = 2
+        if rating_word == "most":
+            self.rating = self.category.best_possible_rating
+        if rating_word == "least":
+            self.rating = self.category.best_possible_rating * -1 + 4
+
+

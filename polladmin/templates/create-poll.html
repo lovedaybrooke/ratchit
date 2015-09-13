@@ -16,16 +16,16 @@
         <textarea cols="50" rows="10" name="poll_options" id="poll_options" required>{% if formdata.poll_options %}{{formdata.poll_options|escape}}{% endif %}</textarea>
         <h4 class="label">What factors should they be scored on?</h4>
         <div class="explanation">
-        <p>Scoring is always on a three-point scale, from 1 (least) to 3 (most).</p>
-        <p>Much of the time, the best possible score for a factor will be 3.</p>
-        <p>However, sometimes a high score in a particular factor is bad, so the best score is 1, not 3.</p>
+        <p>Scoring is always on a three-point scale, from 'least' to 'most'.</p>
+        <p>Much of the time, the best possible score for a factor will be 'most'.</p>
+        <p>However, sometimes a high score in a particular factor is bad, so the best score is 'least'.</p>
         <p>One example of this kind of factor is 'difficulty', where an option which has high difficulty is less desirable than one with low difficulty.</p>
         </div>
         {% if category_error %}<p class="error">{{ category_error }}</p>{% endif %}
-        <label class="poll" for="poll_categories_desc">Factors whose best score is high</label>
+        <label class="poll" for="poll_categories_desc">Factors whose best score is 'most'</label>
         <p class="guidance">For instance value, impact, strategic alignment.<br />Write each factor on a new line.</p>
         <textarea cols="50" rows="5" name="poll_categories_desc" id="poll_categories_desc">{% if formdata.poll_categories_desc %}{{formdata.poll_categories_desc|escape}}{% endif %}</textarea>
-        <label class="poll" for="poll_categories_asc">Factors whose best score is low</label>
+        <label class="poll" for="poll_categories_asc">Factors whose best score is 'least'</label>
         <p class="guidance">For instance cost, risk, time to release.<br />Write each factor on a new line.</p>
         <textarea cols="50" rows="5" name="poll_categories_asc" id="poll_categories_asc">{% if formdata.poll_categories_asc %}{{formdata.poll_categories_asc|escape}}{% endif %}</textarea>
         <input class="pure-button" type="submit" value="Create a poll"/>

@@ -1,6 +1,8 @@
 {% extends "basic-ratings-layout.html" %}
 {% block maincontent %} 
 
+<h2>Your polls</h2>
+
 {% for poll in polls %}
     <p><a href="/rate/{{poll.rating_hash}}">{{ poll.title }}</a></p>
 {% endfor %}

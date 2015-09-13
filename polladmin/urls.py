@@ -26,4 +26,5 @@ urlpatterns = [
     url(r"^event/(?P<event_id>[0-9]+)/$",  views.manage_event, name="event"),
     url(r"^event/(?P<event_id>[0-9]+)/create-poll$",  csrf_exempt(views.create_poll)),
     url(r"^event/(?P<event_id>[0-9]+)/poll/(?P<poll_id>[0-9]+)$",  csrf_exempt(views.view_poll)),
+    url(r'^rate', include('ratings.urls')),
 ]

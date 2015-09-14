@@ -2,7 +2,7 @@
 {% block maincontent %}     
     <h5 class="breadcrumb" ><<a href="/">all events</a><<a href="/event/{{ event.id }}">{{ event.title }} event</a></h5>
     <h2>{{ poll.title }}</h2>
-    <p><a href="/rate/{{ poll.rating_hash }}" target="_blank">Rating link for participants: http://0.0.0.0:5000/rate/{{ poll.rating_hash }}</a></p>
+    <p><a href="/rate/{{ poll.rating_hash }}" target="_blank">Rating link for participants: http://ratchit.herokuapp.com/rate/{{ poll.rating_hash }}</a></p>
     <p><a href="{{ poll.id }}/results">Poll results</a></p>
 
     <h3>Options to be rated</h3>  
